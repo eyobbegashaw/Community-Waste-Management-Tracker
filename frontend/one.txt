@@ -1,0 +1,139 @@
+Project 5: Smart Resume Parser & Job Matcher
+An AI-powered tool that helps Ethiopian students and fresh graduates understand their job market value by extracting skills from their CVs and matching them with relevant job opportunities.
+
+Core Functionality (MVP)
+Resume Upload & Parsing: Users upload a PDF resume. The system extracts key information: name, education, skills, experience, and languages.
+
+Skill Analysis: AI identifies both hard skills (Python, Accounting) and soft skills (Team Leadership, Communication).
+AI can answer or response by amaric or english langauage when click the user one of two button 
+Job Matching: Based on extracted skills, the system suggests relevant job postings from a built-in database or scraped from Ethiopian job sites.
+
+Skill Gap Analysis: Shows the user which skills are missing for their desired job roles.
+
+Resume Score: Provides a score (e.g., 75/100) with suggestions for improvement (e.g., "Add more quantifiable achievements").
+
+User Experience (UI/UX)
+Professional & Trustworthy: Use a clean, corporate style (blues, whites) that inspires confidence in the AI's analysis.
+
+Drag-and-Drop Upload: Simple, prominent area for uploading PDFs with clear instructions.
+
+Visual Skill Representation: Display extracted skills as tags/badges. Show matching jobs in cards with match percentage (e.g., "85% Match").
+
+Amharic Option: For users less comfortable with English, key terms and suggestions can be displayed in Amharic, though the resume itself will likely be in English.
+
+Folder Structure (React + Node.js + OpenAI API)
+text
+project-5-resume-parser/
+├── backend/
+│   ├── src/
+│   │   ├── controllers/
+│   │   │   ├── resumeController.js (Upload & parsing logic)
+│   │   │   ├── jobController.js (Job CRUD & matching)
+│   │   │   └── authController.js
+│   │   ├── services/
+│   │   │   ├── pdfParser.js (Extract text from PDF)
+│   │   │   ├── aiParser.js (Gemini API calls)
+│   │   │   └── jobMatcher.js (Matching algorithm)
+│   │   ├── models/
+│   │   │   ├── User.js
+│   │   │   ├── Resume.js
+│   │   │   └── Job.js
+│   │   ├── routes/
+│   │   ├── middleware/
+│   │   ├── utils/
+│   │   └── server.js
+│   ├── package.json
+│   └── .env
+├── frontend/
+│   ├── public/
+│   └── src/
+│       ├── components/
+│       │   ├── Upload/
+│       │   │   ├── FileUploader.jsx
+│       │   │   └── UploadProgress.jsx
+│       │   ├── Analysis/
+│       │   │   ├── SkillTags.jsx
+│       │   │   ├── ExperienceTimeline.jsx
+│       │   │   └── ResumeScore.jsx
+│       │   └── Jobs/
+│       │   |   ├── JobCard.jsx
+│       │   |    └── MatchPercentage.jsx
+|       |   |____Common/
+|       |   |       about.jsx (explaination about website with card )
+|       |   |       contact.jsx,login.jsx(google),register.jsx(google),darkmode.jsx,language.jsx(amaric እና english),footer.jsx
+|       |   |_______styles/
+│       ├── pages/
+│       │   ├── HomePage.jsx
+│       │   ├── ResultsPage.jsx
+│       │   ├── JobsPage.jsx
+│       │   └── ProfilePage.jsx
+│       ├── services/
+│       │   └── api.js
+│       ├── App.jsx
+│       └── main.jsx
+|       |___App.css
+|       |__index.css
+|
+├── package.json
+└── README.md
+└──index.html
+Database Schema (MongoDB)
+javascript
+// 1. Resume Model (Store parsed results)
+const resumeSchema = {
+  userId: { type: ObjectId, ref: 'User', required: true },
+  fileName: String,
+  parsedData: {
+    name: String,
+    email: String,
+    phone: String,
+    education: [{
+      degree: String,
+      institution: String,
+      graduationYear: Number
+    }],
+    skills: [String], // e.g., ["JavaScript", "Accounting", "Amharic"]
+    experience: [{
+      company: String,
+      role: String,
+      duration: String,
+      responsibilities: [String]
+    }],
+    languages: [String]
+  },
+  rawText: String, // For debugging/reprocessing
+  score: Number, // Resume quality score
+  createdAt: Date
+}
+
+// 2. Job Model
+const jobSchema = {
+  title: String,
+  company: String,
+  location: String, // e.g., "Addis Ababa"
+  description: String,
+  requiredSkills: [String], // For matching
+  preferredSkills: [String],
+  jobType: String, // "Full-time", "Internship", "Contract"
+  salary: String, // Optional, can be range
+  applicationUrl: String,
+  postedDate: Date,
+  expiryDate: Date,
+  isActive: { type: Boolean, default: true }
+}
+
+// 3. User Model
+const userSchema = {
+  name: String,
+  email: String,
+  password: String,
+  savedJobs: [{ type: ObjectId, ref: 'Job' }],
+  resumes: [{ type: ObjectId, ref: 'Resume' }],
+  createdAt: Date
+}
+Local Context: Solving a Problem in Ethiopia
+Bridging the University-Industry Gap: Ethiopian graduates often struggle to understand how their academic knowledge translates to job requirements. This tool provides that translation.
+
+Standardizing CV Quality: Many students don't know how to write an effective CV. The scoring and suggestions provide immediate, actionable feedback.
+
+Navigating a Nascent Job Market: With a growing private sector, job titles and requirements can be inconsistent. The AI helps match students to jobs they might not have considered based on their actual skills.
