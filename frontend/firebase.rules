@@ -14,7 +14,6 @@ service cloud.firestore {
     function isOwner(userId) {
       return isAuthenticated() && request.auth.uid == userId;
     }
-
     // Reports collection
     match /reports/{reportId} {
       allow read: if true; // Anyone can read reports
