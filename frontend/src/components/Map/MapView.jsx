@@ -4,7 +4,6 @@ import 'leaflet/dist/leaflet.css';
 import { useLanguage } from '../../contexts/LanguageContext';
 import ReportMarker from './ReportMarker';
 import './MapView.css';
-
 // Fix for default markers in Leaflet with Vite
 delete L.Icon.Default.prototype._getIconUrl;
 
