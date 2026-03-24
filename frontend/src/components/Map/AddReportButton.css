@@ -17,7 +17,6 @@
   transition: all 0.2s ease;
   z-index: 1000;
 }
-
 .add-report-button:hover {
   background-color: var(--primary-dark);
   transform: translateY(-2px);
