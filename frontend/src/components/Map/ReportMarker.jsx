@@ -15,6 +15,7 @@ const ReportMarker = ({ report, map, onClick }) => {
       }
     };
 
+
     // Create custom marker icon
     const markerIcon = L.divIcon({
       className: 'custom-marker',
