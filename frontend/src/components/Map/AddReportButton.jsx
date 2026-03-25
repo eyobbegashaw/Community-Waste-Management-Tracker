@@ -19,5 +19,4 @@ const AddReportButton = () => {
   );
 };
 
-
 export default AddReportButton;
