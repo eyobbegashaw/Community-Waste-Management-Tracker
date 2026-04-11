@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import MapView from '../components/Map/MapView';
 import AddReportButton from '../components/Map/AddReportButton';
