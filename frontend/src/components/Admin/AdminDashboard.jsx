@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { reportService, scheduleService, userService } from '../../firebase/services';
 import { useLanguage } from '../../contexts/LanguageContext';
